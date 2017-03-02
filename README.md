@@ -1,5 +1,5 @@
 # MrHouse
-Control my home with Telegram-Telepot (still in development)
+Automation with Raspberry Pi 2 model B and Telegram-Telepot (still in development)
 
 ### Executing ###
 >>Edit all tables from database with your application data
