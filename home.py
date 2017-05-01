@@ -17,6 +17,13 @@ import sys
 import os
 import logging
 from subprocess import check_output
+import RPi.GPIO as GPIO
+
+GPIO.setmode(GPIO.BOARD)
+GPIO.setwarnings(False)
+GPIO.setup(7, GPIO.OUT)
+GPIO.output(7, GPIO.HIGH)
+
 
 class MrHouse(telepot.Bot):
 
@@ -29,20 +36,20 @@ class MrHouse(telepot.Bot):
             'foto': 'tira uma foto e envia.',
             'video': 'grava 10 segundos de vídeo e envia.',
             'temp': 'Temperatura e umidade no interior da casa.',
-            'ventON': 'Liga o ventilador.',
-            'ventOFF': 'Desliga o ventilador.',
-            'ledON': 'Liga o led.',
-            'ledOFF': 'Desliga o led.',
-            'cozinhaON': 'Liga a luz da cozinha.',
-            'cozinhaOFF': 'Desliga a luz da cozinha.',
-            'salaON': 'Liga a luz da sala.',
-            'salaOFF': 'Desliga a luz da sala.',
-            'quartoON': 'Liga a luz do quarto.',
-            'quartoOFF': 'Desliga a luz d o quarto.',
-            'musicaON': 'Comeca a tocar musica',
-            'musicaOFF': 'Para de tocar musica.',
-            'alarmeON': 'Ativa os alarmes programados.',
-            'alarmeOFF': 'Desativa os alarmes programados.',
+            'venton': 'Liga o ventilador.',
+            'ventoff': 'Desliga o ventilador.',
+            'ledon': 'Liga o led.',
+            'ledoff': 'Desliga o led.',
+            'cozinhaon': 'Liga a luz da cozinha.',
+            'cozinhaoff': 'Desliga a luz da cozinha.',
+            'salaon': 'Liga a luz da sala.',
+            'salaoff': 'Desliga a luz da sala.',
+            'quartoon': 'Liga a luz do quarto.',
+            'quartooff': 'Desliga a luz d o quarto.',
+            'musicaon': 'Comeca a tocar musica',
+            'musicaoff': 'Para de tocar musica.',
+            'alarmeon': 'Ativa os alarmes programados.',
+            'alarmeoff': 'Desativa os alarmes programados.',
         }
         # Set some camera options if needed
         # self.camera.vflip = True
@@ -162,6 +169,14 @@ class MrHouse(telepot.Bot):
                 """
                 logging.info("Enviando video atual da raspicam para %s (username: %s )" % (chat_id, username))
                 self.sendMessage(chat_id, action)
+
+            elif command == '/quartoon':
+                GPIO.output(7, GPIO.LOW)
+                logging.info("Lampada do quarto acesa por %s (username: %s )" % (chat_id, username))
+
+            elif command == '/quartooff':
+                GPIO.output(7, GPIO.HIGH)
+                logging.info("Lampada do quarto apagada por %s (username: %s )" % (chat_id, username))
 
             else:
                 self.sendMessage(chat_id, "Desculpe, o comando %s ainda nao foi implementado." % msg['text'])
